@@ -1,7 +1,33 @@
+*{
+    box-sizing: border-box;
+}
 body{
     background-color: #222;
 }
 
+h1{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 30px;
+    color: white;
+}
+
 #box{
     background-color: #555;
+}
+
+.controls{
+    margin-top: 20px;
+    width: 1000px;
+    background-color: #444;
+    padding: 30px;
+}
+
+button{
+    padding: 20px 50px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: #111;
+    color: #eee;
+    font-family:'Courier New', Courier, monospace;
+    font-size: 20px;
 }

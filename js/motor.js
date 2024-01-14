@@ -34,12 +34,20 @@ class Game {
     this.arr[this.step * 6][this.step * 6] = "on";
     this.arr[this.step * 7][this.step * 6] = "on";
     this.arr[this.step * 8][this.step * 6] = "on";
-    this.arr[this.step * 8][this.step * 9] = "on";
+    this.arr[this.step * 8][this.step * 6] = "on";
+    this.arr[this.step * 9][this.step * 6] = "on";
+    this.arr[this.step * 10][this.step * 6] = "on";
+    this.arr[this.step * 8][this.step * 7] = "on";
+    this.arr[this.step * 8][this.step * 8] = "on";
+    this.arr[this.step * 8][this.step * 10] = "on";
   }
 
   controls() {
-    document.getElementById("stop")?.addEventListener("click", (e) => {
+    document.getElementById("pause")?.addEventListener("click", (e) => {
       clearTimeout(this.timer);
+    });
+    document.getElementById("play")?.addEventListener("click", (e) => {
+      this.lifeCycle();
     });
   }
 
@@ -47,15 +55,16 @@ class Game {
     for (let a = 0; a < this.x; a += this.step) {
       for (let b = 0; b < this.y; b += this.step) {
         if (this.arr[a][b] === "off") {
-          this.drawDead(a, b);
+          this.drawDead(a, b, "#333");
         } else {
-          this.drawLive(a, b);
+          this.drawLive(a, b, "yellow");
         }
       }
     }
   }
 
   lifeCycle() {
+    console.log("aqui");
     this.context.clearRect(0, 0, this.x, this.y);
 
     for (let a = 0; a < this.x; a += this.step) {
@@ -93,44 +102,58 @@ class Game {
           if (this.arr[a + this.step][b + this.step] === "on") points += 1;
         } catch (e) {}
 
-        // regra
-        switch (points) {
-          case 0:
-            this.drawDead(a, b);
-            break;
+        if (this.arr[a][b] === "on")
+          switch (points) {
+            case 0:
+              this.drawLive(a, b);
+              break;
 
-          case 1:
-            this.drawDead(a, b);
-            break;
+            case 1:
+              this.drawLive(a, b);
+              break;
 
-          case 2:
-            this.drawLive(a, b);
-            break;
+            case 2:
+              this.drawLive(a, b);
+              break;
 
-          case 3:
-            this.drawDead(a, b);
-            break;
+            case 3:
+              this.drawDead(a, b);
+              break;
 
-          case 4:
-            this.drawDead(a, b);
-            break;
+            case 4:
+              this.drawLive(a, b);
+              break;
 
-          case 5:
-            this.drawDead(a, b);
-            break;
+            case 5:
+              this.drawDead(a, b);
+              break;
 
-          case 6:
-            this.drawDead(a, b);
-            break;
+            case 6:
+              this.drawDead(a, b);
+              break;
 
-          case 7:
-            this.drawDead(a, b);
-            break;
+            case 7:
+              this.drawLive(a, b);
+              break;
 
-          case 8:
-            this.drawDead(a, b);
-            break;
-        }
+            case 8:
+              this.drawLive(a, b);
+              break;
+          }
+
+        if (this.arr[a][b] === "off")
+          switch (points) {
+            case 4:
+              this.drawLive(a, b);
+              break;
+
+            case 7:
+              this.drawLive(a, b);
+              break;
+            default:
+              this.drawDead(a, b);
+              break;
+          }
       }
     }
 
@@ -138,17 +161,17 @@ class Game {
 
     this.timer = setTimeout(() => {
       this.lifeCycle();
-    }, 1000);
+    }, 10);
   }
 
-  drawLive(a, b) {
-    this.context.fillStyle = "yellow";
+  drawLive(a, b, color = "cyan") {
+    this.context.fillStyle = color;
     this.context.fillRect(a, b, this.step, this.step);
     this.arr_tmp[a][b] = "on";
   }
 
-  drawDead(a, b) {
-    this.context.strokeStyle = "#333";
+  drawDead(a, b, color = "#333") {
+    this.context.strokeStyle = color;
     this.context.strokeRect(a, b, this.step, this.step);
     this.arr_tmp[a][b] = "off";
   }
@@ -158,4 +181,3 @@ class Game {
 
 let game = new Game();
 game.init();
-game.lifeCycle();
