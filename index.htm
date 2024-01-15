@@ -13,14 +13,128 @@
       <div class="controls">
         <button id="play">Play</button>
         <button id="pause">Pause</button>
+        <button id="next">Next</button>
         <button id="rand">Randomize</button>
+        <button id="apply">Apply</button>
       </div>
       <div class="settings">
-        Environment Width
-        <input type="text" id="width" />
-        Environment height
-        <input type="text" id="height" />
-        <button id="apply">Apply</button>
+        <div>
+          <h2>Settings</h2>
+          <table>
+            <tr>
+              <td>Environment Width</td>
+              <td><input type="text" id="width" value="1000" /></td>
+            </tr>
+            <tr>
+              <td>Environment height</td>
+              <td><input type="text" id="height" value="500" /></td>
+            </tr>
+            <tr>
+              <td>Block size</td>
+              <td><input type="text" id="step" value="10" /></td>
+            </tr>
+            <tr>
+              <td>Time</td>
+              <td><input type="text" id="time" value="20" /></td>
+            </tr>
+            <tr>
+              <td>Random factor</td>
+              <td><input type="text" id="rFactor" value="90" /></td>
+            </tr>
+          </table>
+        </div>
+
+        <div>
+          <h2>Rules when on</h2>
+          <table>
+            <tr>
+              <td>Neighbors</td>
+              <td>Next status</td>
+            </tr>
+            <tr>
+              <td>0</td>
+              <td><input type="text" id="on0" value="dead" /></td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td><input type="text" id="on1" value="dead" /></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><input type="text" id="on2" value="alive" /></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><input type="text" id="on3" value="alive" /></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><input type="text" id="on4" value="dead" /></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><input type="text" id="on5" value="dead" /></td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td><input type="text" id="on6" value="dead" /></td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td><input type="text" id="on7" value="dead" /></td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td><input type="text" id="on8" value="dead" /></td>
+            </tr>
+          </table>
+        </div>
+
+        <div>
+          <h2>Rules when off</h2>
+          <table>
+            <tr>
+              <td>Neighbors</td>
+              <td>Next status</td>
+            </tr>
+            <tr>
+              <td>0</td>
+              <td><input type="text" id="off0" value="dead" /></td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td><input type="text" id="off1" value="dead" /></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><input type="text" id="off2" value="dead" /></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><input type="text" id="off3" value="alive" /></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><input type="text" id="off4" value="dead" /></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><input type="text" id="off5" value="dead" /></td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td><input type="text" id="off6" value="dead" /></td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td><input type="text" id="off7" value="dead" /></td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td><input type="text" id="off8" value="dead" /></td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
 

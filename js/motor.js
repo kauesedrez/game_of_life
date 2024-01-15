@@ -3,7 +3,9 @@ class Game {
   constructor() {
     this.x = 1000;
     this.y = 500;
-    this.step = 5;
+    this.step = 10;
+    this.time = 20;
+    this.random_factor = 90;
     this.arr = new Array();
     this.arr_tmp = new Array();
     this.timer;
@@ -16,6 +18,33 @@ class Game {
     this.offscreenCanvas.width = this.x;
     this.offscreenCanvas.height = this.y;
     this.offscreenContext = this.offscreenCanvas.getContext("2d");
+    this.offscreenContext.lineWidth = 1;
+    this.context.lineWidth = 1;
+
+    this.rules = {
+      on: {
+        0: "dead",
+        1: "dead",
+        2: "alive", // conway live
+        3: "alive", // conway live
+        4: "dead",
+        5: "dead",
+        6: "dead",
+        7: "dead",
+        8: "dead",
+      },
+      off: {
+        0: "dead",
+        1: "dead",
+        2: "dead",
+        3: "alive", // conway live
+        4: "dead",
+        5: "dead",
+        6: "dead",
+        7: "dead",
+        8: "dead",
+      },
+    };
 
     this.fillArr();
     this.initialState();
@@ -53,6 +82,9 @@ class Game {
     document.getElementById("play")?.addEventListener("click", (e) => {
       this.lifeCycle();
     });
+    document.getElementById("next")?.addEventListener("click", (e) => {
+      this.lifeCycle(false);
+    });
     document.getElementById("rand")?.addEventListener("click", (e) => {
       this.randomize();
     });
@@ -66,6 +98,20 @@ class Game {
 
     let w = $("width").value;
     let h = $("height").value;
+    let step = $("step").value;
+    this.step = parseInt(step);
+    let time = $("time").value;
+    this.time = time;
+    let rFactor = $("rFactor").value;
+    this.random_factor = rFactor;
+
+    for (let i = 0; i <= 8; i++) {
+      let on = $(`on${i}`).value;
+      let off = $(`off${i}`).value;
+      this.rules.on[i] = on;
+      this.rules.off[i] = off;
+    }
+
     $("box").style.width = w + "px";
     $("box").style.height = h + "px";
     $("box").setAttribute("width", w);
@@ -86,14 +132,14 @@ class Game {
         if (this.arr[a][b] === "off") {
           this.drawDead(a, b, "#333");
         } else {
-          this.drawLive(a, b, "yellow");
+          this.drawAlive(a, b, "yellow");
         }
       }
     }
     this.context.drawImage(this.offscreenCanvas, 0, 0);
   }
 
-  lifeCycle() {
+  lifeCycle(anim = true) {
     this.context.clearRect(0, 0, this.x, this.y);
     this.offscreenContext.clearRect(0, 0, this.x, this.y);
 
@@ -132,6 +178,11 @@ class Game {
           if (this.arr[a + this.step][b + this.step] === "on") points += 1;
         } catch (e) {}
 
+        this.rules[this.arr[a][b]][points] === "dead"
+          ? this.drawDead(a, b)
+          : this.drawAlive(a, b);
+
+        /*
         if (this.arr[a][b] === "on")
           switch (points) {
             case 0:
@@ -181,6 +232,8 @@ class Game {
               this.drawDead(a, b);
               break;
           }
+             
+          */
       }
     }
 
@@ -188,9 +241,10 @@ class Game {
 
     this.arr = JSON.parse(JSON.stringify(this.arr_tmp));
 
-    this.timer = setTimeout(() => {
-      this.lifeCycle();
-    }, 20);
+    if (anim)
+      this.timer = setTimeout(() => {
+        this.lifeCycle();
+      }, this.time);
   }
 
   generateRandomNumber() {
@@ -198,7 +252,7 @@ class Game {
     const decimalNumber = Math.random();
 
     // Multiplies by the desired range and rounds down
-    const integerNumber = Math.floor(decimalNumber * 10) + 1;
+    const integerNumber = Math.floor(decimalNumber * 101);
 
     return integerNumber;
   }
@@ -207,7 +261,7 @@ class Game {
     clearTimeout(this.timer);
     for (let a = 0; a < this.x; a += this.step) {
       for (let b = 0; b < this.y; b += this.step) {
-        if (this.generateRandomNumber() < 9) {
+        if (this.generateRandomNumber() < this.random_factor) {
           this.arr[a][b] = "off";
           this.arr_tmp[a][b] = "off";
         } else {
@@ -219,7 +273,7 @@ class Game {
     this.init();
   }
 
-  drawLive(a, b, color = "yellow") {
+  drawAlive(a, b, color = "yellow") {
     this.offscreenContext.fillStyle = color;
     this.offscreenContext.fillRect(a, b, this.step, this.step);
     this.arr_tmp[a][b] = "on";

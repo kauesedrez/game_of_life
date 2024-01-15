@@ -29,6 +29,9 @@ h1{
     background-color: #444;
     padding: 10px;
     width: fit-content;
+    display: flex;
+    flex-wrap: wrap;
+    width: 300px;
 }
 
 button{
@@ -44,4 +47,9 @@ button{
     flex: none;
     background-color: olive;
     padding: 10px;
+    display: flex;
+}
+
+input{
+    background-color: #aaa;
 }
