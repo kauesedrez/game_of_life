@@ -146,6 +146,10 @@ class Game {
             case 3:
               this.drawLive(a, b);
               break;
+
+            default:
+              this.drawDead(a, b);
+              break;
           }
       }
     }
@@ -154,10 +158,10 @@ class Game {
 
     this.timer = setTimeout(() => {
       this.lifeCycle();
-    }, 10);
+    }, 500);
   }
 
-  drawLive(a, b, color = "cyan") {
+  drawLive(a, b, color = "yellow") {
     this.context.fillStyle = color;
     this.context.fillRect(a, b, this.step, this.step);
     this.arr_tmp[a][b] = "on";
