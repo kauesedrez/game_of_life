@@ -105,11 +105,11 @@ class Game {
         if (this.arr[a][b] === "on")
           switch (points) {
             case 0:
-              this.drawLive(a, b);
+              this.drawDead(a, b);
               break;
 
             case 1:
-              this.drawLive(a, b);
+              this.drawDead(a, b);
               break;
 
             case 2:
@@ -117,11 +117,11 @@ class Game {
               break;
 
             case 3:
-              this.drawDead(a, b);
+              this.drawLive(a, b);
               break;
 
             case 4:
-              this.drawLive(a, b);
+              this.drawDead(a, b);
               break;
 
             case 5:
@@ -133,25 +133,18 @@ class Game {
               break;
 
             case 7:
-              this.drawLive(a, b);
+              this.drawDead(a, b);
               break;
 
             case 8:
-              this.drawLive(a, b);
+              this.drawDead(a, b);
               break;
           }
 
         if (this.arr[a][b] === "off")
           switch (points) {
-            case 4:
+            case 3:
               this.drawLive(a, b);
-              break;
-
-            case 7:
-              this.drawLive(a, b);
-              break;
-            default:
-              this.drawDead(a, b);
               break;
           }
       }
