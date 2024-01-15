@@ -8,11 +8,20 @@
   </head>
   <body>
     <h1>Game Of Life</h1>
-    <canvas id="box" width="2000" height="600"></canvas>
-    <div class="controls">
-      <button id="play">Play</button>
-      <button id="pause">Pause</button>
-      <button id="rand">Randomize</button>
+    <canvas id="box" width="1000" height="500"></canvas>
+    <div class="options_box">
+      <div class="controls">
+        <button id="play">Play</button>
+        <button id="pause">Pause</button>
+        <button id="rand">Randomize</button>
+      </div>
+      <div class="settings">
+        Environment Width
+        <input type="text" id="width" />
+        Environment height
+        <input type="text" id="height" />
+        <button id="apply">Apply</button>
+      </div>
     </div>
 
     <script src="./js/motor.js"></script>

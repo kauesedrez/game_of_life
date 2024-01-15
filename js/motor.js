@@ -1,17 +1,21 @@
+// @ts-nocheck
 class Game {
   constructor() {
-    this.x = 2000;
-    this.y = 600;
-    this.step = 10;
+    this.x = 1000;
+    this.y = 500;
+    this.step = 5;
     this.arr = new Array();
     this.arr_tmp = new Array();
     this.timer;
     /**@type {HTMLCanvasElement} */
-    // @ts-ignore
     const canvas = document.getElementById("box");
     /**@type {CanvasRenderingContext2D} */
-    // @ts-ignore
     this.context = canvas.getContext("2d");
+
+    this.offscreenCanvas = document.createElement("canvas");
+    this.offscreenCanvas.width = this.x;
+    this.offscreenCanvas.height = this.y;
+    this.offscreenContext = this.offscreenCanvas.getContext("2d");
 
     this.fillArr();
     this.initialState();
@@ -52,10 +56,30 @@ class Game {
     document.getElementById("rand")?.addEventListener("click", (e) => {
       this.randomize();
     });
+    document.getElementById("apply")?.addEventListener("click", (e) => {
+      this.applySettings();
+    });
+  }
+
+  applySettings() {
+    const $ = (el) => document.getElementById(el);
+
+    let w = $("width").value;
+    let h = $("height").value;
+    $("box").style.width = w + "px";
+    $("box").style.height = h + "px";
+    $("box").setAttribute("width", w);
+    $("box").setAttribute("height", h);
+    this.x = w;
+    this.y = h;
+    this.offscreenCanvas.width = this.x;
+    this.offscreenCanvas.height = this.y;
+    this.fillArr();
   }
 
   init() {
     this.context.clearRect(0, 0, this.x, this.y);
+    this.offscreenContext.clearRect(0, 0, this.x, this.y);
 
     for (let a = 0; a < this.x; a += this.step) {
       for (let b = 0; b < this.y; b += this.step) {
@@ -66,10 +90,12 @@ class Game {
         }
       }
     }
+    this.context.drawImage(this.offscreenCanvas, 0, 0);
   }
 
   lifeCycle() {
     this.context.clearRect(0, 0, this.x, this.y);
+    this.offscreenContext.clearRect(0, 0, this.x, this.y);
 
     for (let a = 0; a < this.x; a += this.step) {
       for (let b = 0; b < this.y; b += this.step) {
@@ -158,6 +184,8 @@ class Game {
       }
     }
 
+    this.context.drawImage(this.offscreenCanvas, 0, 0);
+
     this.arr = JSON.parse(JSON.stringify(this.arr_tmp));
 
     this.timer = setTimeout(() => {
@@ -192,14 +220,14 @@ class Game {
   }
 
   drawLive(a, b, color = "yellow") {
-    this.context.fillStyle = color;
-    this.context.fillRect(a, b, this.step, this.step);
+    this.offscreenContext.fillStyle = color;
+    this.offscreenContext.fillRect(a, b, this.step, this.step);
     this.arr_tmp[a][b] = "on";
   }
 
   drawDead(a, b, color = "#333") {
-    this.context.strokeStyle = color;
-    this.context.strokeRect(a, b, this.step, this.step);
+    this.offscreenContext.strokeStyle = color;
+    this.offscreenContext.strokeRect(a, b, this.step, this.step);
     this.arr_tmp[a][b] = "off";
   }
 
