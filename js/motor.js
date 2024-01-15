@@ -1,6 +1,6 @@
 class Game {
   constructor() {
-    this.x = 1000;
+    this.x = 2000;
     this.y = 600;
     this.step = 10;
     this.arr = new Array();
@@ -49,9 +49,14 @@ class Game {
     document.getElementById("play")?.addEventListener("click", (e) => {
       this.lifeCycle();
     });
+    document.getElementById("rand")?.addEventListener("click", (e) => {
+      this.randomize();
+    });
   }
 
   init() {
+    this.context.clearRect(0, 0, this.x, this.y);
+
     for (let a = 0; a < this.x; a += this.step) {
       for (let b = 0; b < this.y; b += this.step) {
         if (this.arr[a][b] === "off") {
@@ -64,7 +69,6 @@ class Game {
   }
 
   lifeCycle() {
-    console.log("aqui");
     this.context.clearRect(0, 0, this.x, this.y);
 
     for (let a = 0; a < this.x; a += this.step) {
@@ -158,7 +162,33 @@ class Game {
 
     this.timer = setTimeout(() => {
       this.lifeCycle();
-    }, 500);
+    }, 20);
+  }
+
+  generateRandomNumber() {
+    // Generates a random number between 0 (inclusive) and 1 (exclusive)
+    const decimalNumber = Math.random();
+
+    // Multiplies by the desired range and rounds down
+    const integerNumber = Math.floor(decimalNumber * 10) + 1;
+
+    return integerNumber;
+  }
+
+  randomize() {
+    clearTimeout(this.timer);
+    for (let a = 0; a < this.x; a += this.step) {
+      for (let b = 0; b < this.y; b += this.step) {
+        if (this.generateRandomNumber() < 9) {
+          this.arr[a][b] = "off";
+          this.arr_tmp[a][b] = "off";
+        } else {
+          this.arr[a][b] = "on";
+          this.arr_tmp[a][b] = "on";
+        }
+      }
+    }
+    this.init();
   }
 
   drawLive(a, b, color = "yellow") {
